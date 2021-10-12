@@ -1,0 +1,7 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+- https://raw.githubusercontent.com/rook/nfs/v1.7.3/cluster/examples/kubernetes/nfs/crds.yaml
+- https://raw.githubusercontent.com/rook/nfs/v1.7.3/cluster/examples/kubernetes/nfs/operator.yaml
+patchesStrategicMerge:
+- patches/argo-wave.yaml
