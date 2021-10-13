@@ -1,0 +1,33 @@
+kind: StorageClass
+apiVersion: storage.k8s.io/v1
+metadata:
+  name: rook-local
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+provisioner: kubernetes.io/no-provisioner
+volumeBindingMode: WaitForFirstConsumerapi
+---
+Version: v1
+kind: PersistentVolume
+metadata:
+  name: rook-pv
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+spec:
+  capacity:
+    storage: 200Gi
+  volumeMode: Filesystem
+  accessModes:
+  - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: rook-local
+  local:
+    path: /kube/rook-local
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values:
+          - wreckingball

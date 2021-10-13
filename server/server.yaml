@@ -1,0 +1,49 @@
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: rook-nfs-pv-claim
+  namespace: rook-nfs
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+spec:
+  storageClassName: rook-local
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 200Gi
+---
+apiVersion: nfs.rook.io/v1alpha1
+kind: NFSServer
+metadata:
+  name: rook-nfs
+  namespace: rook-nfs
+  annotations:
+    argocd.argoproj.io/sync-wave: "3"
+spec:
+  replicas: 1
+  exports:
+  - name: kubeshare
+    server:
+      accessMode: ReadWrite
+      squash: "none"
+    persistentVolumeClaim:
+      claimName: rook-nfs-pv-claim
+  annotations:
+    rook: nfs
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  labels:
+    app: rook-nfs
+  name: rook-nfs-kubeshare
+  annotations:
+    argocd.argoproj.io/sync-wave: "3"
+parameters:
+  exportName: kubeshare
+  nfsServerName: rook-nfs
+  nfsServerNamespace: rook-nfs
+provisioner: nfs.rook.io/rook-nfs-provisioner
+reclaimPolicy: Delete
+volumeBindingMode: Immediate
