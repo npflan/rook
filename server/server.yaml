@@ -1,7 +1,7 @@
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: rook-nfs-pv-claim
+  name: rook-nfs-local
   namespace: rook-nfs
   annotations:
     argocd.argoproj.io/sync-wave: "2"
@@ -28,7 +28,7 @@ spec:
       accessMode: ReadWrite
       squash: "none"
     persistentVolumeClaim:
-      claimName: rook-nfs-pv-claim
+      claimName: rook-nfs-local
   annotations:
     rook: nfs
 ---
