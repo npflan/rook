@@ -15,7 +15,7 @@ metadata:
     argocd.argoproj.io/sync-wave: "2"
 spec:
   capacity:
-    storage: 200Gi
+    storage: 1000Gi
   volumeMode: Filesystem
   accessModes:
   - ReadWriteOnce
@@ -30,4 +30,4 @@ spec:
         - key: kubernetes.io/hostname
           operator: In
           values:
-          - wreckingball
+          - k8s-worker11
