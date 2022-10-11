@@ -15,7 +15,7 @@ metadata:
     argocd.argoproj.io/sync-wave: "2"
 spec:
   capacity:
-    storage: 1000Gi
+    storage: 700Gi
   volumeMode: Filesystem
   accessModes:
   - ReadWriteOnce
