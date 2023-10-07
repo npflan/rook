@@ -15,14 +15,14 @@ metadata:
     argocd.argoproj.io/sync-wave: "2"
 spec:
   capacity:
-    storage: 700Gi
+    storage: 200Gi
   volumeMode: Filesystem
   accessModes:
   - ReadWriteOnce
   persistentVolumeReclaimPolicy: Retain
   storageClassName: rook-local
   local:
-    path: /kube/rook-local
+    path: /var/kube/rook-local
   nodeAffinity:
     required:
       nodeSelectorTerms:
@@ -30,4 +30,4 @@ spec:
         - key: kubernetes.io/hostname
           operator: In
           values:
-          - k8s-worker11
+          - archon
